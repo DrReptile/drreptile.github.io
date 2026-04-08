@@ -4,93 +4,82 @@
   <title>Método 2x2</title>
   <style>
     body {
-      font-family: Arial;
-      background: #111;
+      margin: 0;
+      background: black;
       color: white;
+      font-family: Arial;
       text-align: center;
+    }
+
+    h1 {
+      position: fixed;
+      top: 10px;
+      width: 100%;
       margin: 0;
     }
 
     .slide {
       display: none;
-      padding: 40px;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
     }
 
     .active {
-      display: block;
+      display: flex;
     }
 
-    h1 {
-      margin-top: 20px;
+    img {
+      max-width: 90%;
+      max-height: 80%;
+      border-radius: 10px;
     }
 
-    .controls {
+    .btn {
       position: fixed;
       bottom: 20px;
-      width: 100%;
-    }
-
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 16px;
+      right: 20px;
+      padding: 15px 25px;
+      font-size: 18px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-    }
-
-    .alg {
-      color: #0f0;
-      font-size: 20px;
-      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-<h1>Método rápido 2x2</h1>
+<h1>Método 2x2</h1>
 
 <!-- SLIDES -->
 <div class="slide active">
-  <h2>Paso 1</h2>
-  <p>Hacer la primera capa</p>
-  <div class="alg">R U R' U'</div>
+  <img src="paso1.jpg">
 </div>
 
 <div class="slide">
-  <h2>Paso 2</h2>
-  <p>Orientar última capa</p>
-  <div class="alg">F R U R' U' F'</div>
+  <img src="paso2.jpg">
 </div>
 
 <div class="slide">
-  <h2>Paso 3</h2>
-  <p>Permutar esquinas</p>
-  <div class="alg">R U R' U' R' F R2 U' R' U' R U R' F'</div>
+  <img src="paso3.jpg">
 </div>
 
-<!-- CONTROLES -->
-<div class="controls">
-  <button onclick="cambiarSlide(-1)">⬅ Anterior</button>
-  <button onclick="cambiarSlide(1)">Siguiente ➡</button>
-</div>
+<!-- BOTÓN -->
+<button class="btn" onclick="siguiente()">Siguiente ➡</button>
 
 <script>
-let slideActual = 0;
+let actual = 0;
 const slides = document.querySelectorAll(".slide");
 
-function mostrarSlide(index) {
+function mostrar(i) {
   slides.forEach(s => s.classList.remove("active"));
-  slides[index].classList.add("active");
+  slides[i].classList.add("active");
 }
 
-function cambiarSlide(direccion) {
-  slideActual += direccion;
-
-  if (slideActual < 0) slideActual = slides.length - 1;
-  if (slideActual >= slides.length) slideActual = 0;
-
-  mostrarSlide(slideActual);
+function siguiente() {
+  actual++;
+  if (actual >= slides.length) actual = 0;
+  mostrar(actual);
 }
 </script>
 
