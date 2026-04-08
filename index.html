@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cubo 3D</title>
+  <title>Cubo con texturas</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
-<body style="margin:0;">
+<body style="margin:0; overflow:hidden;">
+
+<button onclick="cambiarTexturas()" 
+style="position:absolute; top:10px; left:10px; z-index:10;">
+Cambiar texturas
+</button>
 
 <script>
 const scene = new THREE.Scene();
@@ -14,21 +19,52 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// TEXTURA
-const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load('textura.jpg'); // <-- tu imagen
-texture.wrapS = THREE.RepeatWrapping;
-texture.wrapT = THREE.RepeatWrapping;
-texture.repeat.set(1, 1);
-// CUBO
+const loader = new THREE.TextureLoader();
+
+// 🔹 SET 1 de texturas
+const set1 = [
+  loader.load('cara1.jpg'),
+  loader.load('cara2.jpg'),
+  loader.load('cara3.jpg'),
+  loader.load('cara4.jpg'),
+  loader.load('cara5.jpg'),
+  loader.load('cara6.jpg')
+];
+
+// 🔹 SET 2 de texturas
+const set2 = [
+  loader.load('cara1b.jpg'),
+  loader.load('cara2b.jpg'),
+  loader.load('cara3b.jpg'),
+  loader.load('cara4b.jpg'),
+  loader.load('cara5b.jpg'),
+  loader.load('cara6b.jpg')
+];
+
+// Crear materiales (uno por cara)
+let materiales = set1.map(tex => new THREE.MeshBasicMaterial({ map: tex }));
+
 const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
+const cube = new THREE.Mesh(geometry, materiales);
 scene.add(cube);
 
 camera.position.z = 5;
 
-// ANIMACIÓN
+// Estado actual
+let usandoSet1 = true;
+
+// 🔁 Función del botón
+function cambiarTexturas() {
+  usandoSet1 = !usandoSet1;
+  const nuevoSet = usandoSet1 ? set1 : set2;
+
+  for (let i = 0; i < 6; i++) {
+    cube.material[i].map = nuevoSet[i];
+    cube.material[i].needsUpdate = true;
+  }
+}
+
+// Animación
 function animate() {
   requestAnimationFrame(animate);
   cube.rotation.x += 0.01;
