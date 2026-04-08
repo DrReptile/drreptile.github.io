@@ -1,62 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Resolver Cubo 2x2</title>
+  <title>Método 2x2</title>
   <style>
     body {
       font-family: Arial;
       background: #111;
       color: white;
       text-align: center;
+      margin: 0;
     }
 
-    .card {
-      background: #222;
-      margin: 20px auto;
-      padding: 15px;
-      width: 300px;
-      border-radius: 10px;
+    .slide {
+      display: none;
+      padding: 40px;
+    }
+
+    .active {
+      display: block;
+    }
+
+    h1 {
+      margin-top: 20px;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    .algoritmo {
-      display: none;
-      margin-top: 10px;
+    .alg {
       color: #0f0;
-      font-weight: bold;
+      font-size: 20px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
 <h1>Método rápido 2x2</h1>
-<p>Aprendé a resolver el cubo en pocos pasos 🚀</p>
 
-<div class="card" onclick="toggle('alg1')">
-  <h3>Paso 1: Primera capa</h3>
-  <div id="alg1" class="algoritmo">
-    R U R' U'
-  </div>
+<!-- SLIDES -->
+<div class="slide active">
+  <h2>Paso 1</h2>
+  <p>Hacer la primera capa</p>
+  <div class="alg">R U R' U'</div>
 </div>
 
-<div class="card" onclick="toggle('alg2')">
-  <h3>Paso 2: Orientar última capa</h3>
-  <div id="alg2" class="algoritmo">
-    F R U R' U' F'
-  </div>
+<div class="slide">
+  <h2>Paso 2</h2>
+  <p>Orientar última capa</p>
+  <div class="alg">F R U R' U' F'</div>
 </div>
 
-<div class="card" onclick="toggle('alg3')">
-  <h3>Paso 3: Permutar esquinas</h3>
-  <div id="alg3" class="algoritmo">
-    R U R' U' R' F R2 U' R' U' R U R' F'
-  </div>
+<div class="slide">
+  <h2>Paso 3</h2>
+  <p>Permutar esquinas</p>
+  <div class="alg">R U R' U' R' F R2 U' R' U' R U R' F'</div>
+</div>
+
+<!-- CONTROLES -->
+<div class="controls">
+  <button onclick="cambiarSlide(-1)">⬅ Anterior</button>
+  <button onclick="cambiarSlide(1)">Siguiente ➡</button>
 </div>
 
 <script>
-function toggle(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+let slideActual = 0;
+const slides = document.querySelectorAll(".slide");
+
+function mostrarSlide(index) {
+  slides.forEach(s => s.classList.remove("active"));
+  slides[index].classList.add("active");
+}
+
+function cambiarSlide(direccion) {
+  slideActual += direccion;
+
+  if (slideActual < 0) slideActual = slides.length - 1;
+  if (slideActual >= slides.length) slideActual = 0;
+
+  mostrarSlide(slideActual);
 }
 </script>
 
