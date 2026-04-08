@@ -17,7 +17,9 @@ document.body.appendChild(renderer.domElement);
 // TEXTURA
 const textureLoader = new THREE.TextureLoader();
 const texture = textureLoader.load('textura.jpg'); // <-- tu imagen
-
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.set(1, 1);
 // CUBO
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
